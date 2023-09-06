@@ -8,25 +8,25 @@
 }
 <div class="my-5">
 
-    <table class="table bg-dark text-light" id="userListTable">
-        <thead class="bg-primary">
+    <table class="table text-light" id="inductionUserListTable">
+        <thead class="bg-dark">
             <tr>
                 <th scope="col">Name</th>
                 <th scope="col">Phone Number</th>
                 <th scope="col">Email</th>
-                <th scope="col">Action</th>
+                @* <th scope="col">Action</th> *@
             </tr>
         </thead>
-        <tbody>
+        <tbody class="bg-light text-dark">
             @foreach (var user in Model)
             {
-                <tr>
+                <tr class="ClickRowForInductionUser" data-inductionUserId="@user.Inductionuserid">
                     <td>@user.FirstName @user.LastName</td>
                     <td>@user.PhoneNumber</td>
                     <td>@user.Email</td>
-                    <td>
+                    @* <td>
                         <button type="button" value="@user.Inductionuserid" class="btn btn-success inductionUserChat">Send the message</button>
-                    </td>
+                    </td> *@
                 </tr>
             }
         </tbody>

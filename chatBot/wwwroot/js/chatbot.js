@@ -1,5 +1,4 @@
 
-  
 $(document).on('click', '#openUserList', function () {
     console.log("clicked");
     $.ajax({
@@ -19,44 +18,70 @@ $(document).on('click', '#openInductionUserList', function () {
     })
 })
 
-$(document).on('click', '.userChat', function () {
-    var userId = $(this).val();
+//$(document).on('click', '.userChat', function () {
+//    var userId = $(this).val();
+//    console.log(userId);
+//    console.log("clicked");
+//    $('tr').removeClass('highlighted');
+//    $(this).closest('tr').addClass('highlighted');
+//    $.ajax({
+//        url: "/ChatBot/chatView?userId=" + userId,
+//        success: function (data) {
+//            $('.UserChatDetails').html(data);
+//        }
+//    })
+//})
+
+$(document).on('click', 'tr.ClickRow', function () {
+    var userId = $(this).attr("data-userId");
     console.log(userId);
     console.log("clicked");
-    $('tr').removeClass('highlighted');
-    $(this).closest('tr').addClass('highlighted');
+    $('tr.ClickRow').removeClass('highlighted');
+    $(this).addClass('highlighted');
     $.ajax({
         url: "/ChatBot/chatView?userId=" + userId,
         success: function (data) {
             $('.UserChatDetails').html(data);
         }
-    })
-})
+    });
+});
 
-$(document).on('click', '.inductionUserChat', function () {
-    var userId = $(this).val();
-    console.log(userId);
-    console.log("clicked");
+//$(document).on('click', '.inductionUserChat', function () {
+//    var userId = $(this).val();
+//    console.log(userId);
+//    $('tr').removeClass('highlighted');
+//    $(this).closest('tr').addClass('highlighted');
+//    $.ajax({
+//        url: "/ChatBot/chatViewForInductionUser?userId=" + userId,
+//        success: function (data) {
+//            $('.InductionUserChatDetails').html(data);
+//        }
+//    })
+//})
+
+$(document).on("click", '.ClickRowForInductionUser', function () {
+    var inductionUSerId = $(this).attr("data-inductionUserId");
+    console.log(inductionUSerId);
     $('tr').removeClass('highlighted');
-    $(this).closest('tr').addClass('highlighted');
+    $(this).addClass('highlighted');
     $.ajax({
-        url: "/ChatBot/chatViewForInductionUser?userId=" + userId,
-        success: function (data) {
+        url: "/ChatBot/chatViewForInductionUser?userId=" + inductionUSerId,
+        success: function (data)
+        {
             $('.InductionUserChatDetails').html(data);
         }
     })
 })
-
 document.getElementById('openUserList').addEventListener('click', function () {
     Swal.fire({
-        title: "click on 'Send the message' button to communicate",
+        title: "click on perticular data to communicate with him/her",
         icon: 'info',
         confirmButtonText: 'OK'
     });
 });
 document.getElementById('openInductionUserList').addEventListener('click', function () {
     Swal.fire({
-        title: "click on 'Send the message' button to communicate",
+        title: "click on perticular data to communicate with him/her",
         icon: 'info',
         confirmButtonText: 'OK'
     });
@@ -124,3 +149,4 @@ $(document).on('click', '#post-message-for-inductionUser', function () {
         }
     });
 });
+
