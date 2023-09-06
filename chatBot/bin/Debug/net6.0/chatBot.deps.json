@@ -11,6 +11,7 @@
           "Microsoft.EntityFrameworkCore": "7.0.10",
           "Microsoft.EntityFrameworkCore.Design": "7.0.10",
           "Pomelo.EntityFrameworkCore.MySql": "7.0.0",
+          "Services": "1.0.0",
           "dataModels": "1.0.0"
         },
         "runtime": {
@@ -267,6 +268,16 @@
         "runtime": {
           "dataModels.dll": {}
         }
+      },
+      "Services/1.0.0": {
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore": "7.0.10",
+          "Pomelo.EntityFrameworkCore.MySql": "7.0.0",
+          "dataModels": "1.0.0"
+        },
+        "runtime": {
+          "Services.dll": {}
+        }
       }
     }
   },
@@ -438,6 +449,11 @@
       "hashPath": "system.text.json.7.0.0.nupkg.sha512"
     },
     "dataModels/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Services/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

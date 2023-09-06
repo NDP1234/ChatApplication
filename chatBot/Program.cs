@@ -1,5 +1,7 @@
 using dataModels.dbContext;
 using Microsoft.EntityFrameworkCore;
+using Services.Interface;
+using Services.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +11,8 @@ builder.Services.AddDbContext<ChatDbContext>(options =>
         builder.Configuration.GetConnectionString("DefaultConnection"),
         new MySqlServerVersion(new Version(8, 1, 0))
         ));
+
+builder.Services.AddScoped<IChatbotApplication, ChatbotApplication>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

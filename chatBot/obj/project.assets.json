@@ -419,6 +419,21 @@
         "runtime": {
           "bin/placeholder/dataModels.dll": {}
         }
+      },
+      "Services/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore": "7.0.10",
+          "Pomelo.EntityFrameworkCore.MySql": "7.0.0",
+          "dataModels": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Services.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Services.dll": {}
+        }
       }
     }
   },
@@ -1044,6 +1059,11 @@
       "type": "project",
       "path": "../dataModels/dataModels.csproj",
       "msbuildProject": "../dataModels/dataModels.csproj"
+    },
+    "Services/1.0.0": {
+      "type": "project",
+      "path": "../Services/Services.csproj",
+      "msbuildProject": "../Services/Services.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -1051,6 +1071,7 @@
       "Microsoft.EntityFrameworkCore >= 7.0.10",
       "Microsoft.EntityFrameworkCore.Design >= 7.0.10",
       "Pomelo.EntityFrameworkCore.MySql >= 7.0.0",
+      "Services >= 1.0.0",
       "dataModels >= 1.0.0"
     ]
   },
@@ -1089,6 +1110,9 @@
           "projectReferences": {
             "C:\\Users\\WIN-AHD-003\\source\\repos\\chatBot\\dataModels\\dataModels.csproj": {
               "projectPath": "C:\\Users\\WIN-AHD-003\\source\\repos\\chatBot\\dataModels\\dataModels.csproj"
+            },
+            "C:\\Users\\WIN-AHD-003\\source\\repos\\chatBot\\Services\\Services.csproj": {
+              "projectPath": "C:\\Users\\WIN-AHD-003\\source\\repos\\chatBot\\Services\\Services.csproj"
             }
           }
         }

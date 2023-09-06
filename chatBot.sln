@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "chatBot", "chatBot\chatBot.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dataModels", "dataModels\dataModels.csproj", "{714AD3F6-2AAF-45F0-B961-BF36DB302DD3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services\Services.csproj", "{91E483EF-C066-40C1-AACD-119EAB3F8F59}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{714AD3F6-2AAF-45F0-B961-BF36DB302DD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{714AD3F6-2AAF-45F0-B961-BF36DB302DD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{714AD3F6-2AAF-45F0-B961-BF36DB302DD3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91E483EF-C066-40C1-AACD-119EAB3F8F59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91E483EF-C066-40C1-AACD-119EAB3F8F59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91E483EF-C066-40C1-AACD-119EAB3F8F59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91E483EF-C066-40C1-AACD-119EAB3F8F59}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

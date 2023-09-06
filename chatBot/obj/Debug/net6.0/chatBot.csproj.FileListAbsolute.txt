@@ -54,3 +54,5 @@ C:\Users\WIN-AHD-003\source\repos\chatBot\chatBot\obj\Debug\net6.0\chatBot.cspro
 C:\Users\WIN-AHD-003\source\repos\chatBot\chatBot\obj\Debug\net6.0\chatBot.csproj.CopyComplete
 C:\Users\WIN-AHD-003\source\repos\chatBot\chatBot\bin\Debug\net6.0\MySqlConnector.dll
 C:\Users\WIN-AHD-003\source\repos\chatBot\chatBot\bin\Debug\net6.0\Pomelo.EntityFrameworkCore.MySql.dll
+C:\Users\WIN-AHD-003\source\repos\chatBot\chatBot\bin\Debug\net6.0\Services.dll
+C:\Users\WIN-AHD-003\source\repos\chatBot\chatBot\bin\Debug\net6.0\Services.pdb
