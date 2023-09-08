@@ -17,7 +17,18 @@ namespace Services.Repository
         { 
             _db = db;
         }
+        public static byte[] HexStringToByteArray(string hex)
+        {
+            int numberChars = hex.Length;
+            byte[] bytes = new byte[numberChars / 2];
+            for (int i = 0; i < numberChars; i += 2)
+            {
+                bytes[i / 2] = Convert.ToByte(hex.Substring(i, 2), 16);
+            }
+            return bytes;
+        }
 
+        
         public List<Inductionuser> getInductionUserList()
         {
             List<Inductionuser> inductionusers = _db.Inductionusers.ToList();
@@ -29,21 +40,29 @@ namespace Services.Repository
             List<User> users = _db.Users.ToList();
             return users;
         }
-
-        public ChatViewModel fetchMessageDetailsForUser(int userId)
+        
+        public ChatViewModel fetchMessageDetailsForUser(string userId)
         {
-            var userInfo = _db.Users.Where(user => user.Userid == userId).First();
+            
+            byte[] byteArray = HexStringToByteArray(userId.Replace("-", ""));            
+
+            var firstuserBytes = _db.Users.First();
+            byte[] FirstUserGuidBytes = firstuserBytes.UserGuid;
+            string userGuidString = BitConverter.ToString(FirstUserGuidBytes);
+
+            var userInfo = _db.Users.Where(user => user.UserGuid == byteArray).First();
             ChatViewModel viewModel = new ChatViewModel();
             viewModel.FirstName = userInfo.FirstName;
             viewModel.LastName = userInfo.LastName;
             viewModel.PhoneNumber = userInfo.PhoneNumber;
-            viewModel.Userid = userInfo.Userid;
+            viewModel.Userid = userInfo.UserGuid;
+            viewModel.StrForFirstUser = userGuidString;
             viewModel.commonUserModels = _db.Smsmsgtousers
-            .Where(user => (user.UserId == 1 && user.CreatorId == userInfo.Userid) || (user.UserId == userInfo.Userid && user.CreatorId == 1))
+            .Where(user => (user.UserId == FirstUserGuidBytes && user.CreatorId == userInfo.UserGuid) || (user.UserId == userInfo.UserGuid && user.CreatorId == FirstUserGuidBytes))
             .OrderBy(user => user.CreationTime)
             .Select(user => new ChatViewModel.CommonUserModel
             {
-                Id = user.Id,
+                //Id = user.Id,
                 UserId = user.UserId,
                 Sms = user.Sms,
                 IsDelete = user.IsDelete,
@@ -57,24 +76,31 @@ namespace Services.Repository
             return viewModel;
         }
 
-        public ChatViewModel fetchMessageDetailsForInductionUser(int userId)
+        public ChatViewModel fetchMessageDetailsForInductionUser(string userId)
         {
-            var userInfo = _db.Inductionusers.Where(user => user.Inductionuserid == userId).First();
+            byte[] byteArray = HexStringToByteArray(userId.Replace("-", ""));
+
+            var firstuserBytes = _db.Users.First();
+            byte[] FirstUserGuidBytes = firstuserBytes.UserGuid;
+            string userGuidString = BitConverter.ToString(FirstUserGuidBytes);
+
+            var userInfo = _db.Inductionusers.Where(user => user.InductionuserGuid == byteArray).First();
             ChatViewModel viewModel = new ChatViewModel();
             viewModel.FirstName = userInfo.FirstName;
             viewModel.LastName = userInfo.LastName;
             viewModel.PhoneNumber = userInfo.PhoneNumber;
-            viewModel.Userid = userInfo.Inductionuserid;
+            viewModel.Userid = userInfo.InductionuserGuid;
+            viewModel.StrForFirstUser = userGuidString;
             viewModel.commonUserModels = _db.Smsmsgtoinductionusers
-            .Where(user => (user.InductionUserId == userInfo.Inductionuserid) && (user.CreatorId == 1))
+            .Where(user => (user.InductionUserId == userInfo.InductionuserGuid) && (user.CreatorId == FirstUserGuidBytes))
             .OrderBy(user => user.CreationTime)
             .Select(user => new ChatViewModel.CommonUserModel
             {
-                Id = user.Id,
+                //Id = user.Id,
                 UserId = user.InductionUserId,
                 Sms = user.Sms,
                 IsDelete = user.IsDelete,
-                CreatorId = 1,
+                CreatorId = FirstUserGuidBytes,
                 ModificationId = user.ModificationId,
                 DeletorId = user.DeletorId,
                 ModificationTime = user.ModificationTime,
@@ -84,15 +110,23 @@ namespace Services.Repository
             return viewModel;
         }
 
-        public bool SaveCommentsForUsers(int sendToUser, string messageTxt)
+        public bool SaveCommentsForUsers(string sendToUser, string messageTxt)
         {
-            var userInfo = _db.Users.Where(user => user.Userid == sendToUser).FirstOrDefault();
+            byte[] byteArray = HexStringToByteArray(sendToUser.Replace("-", ""));
+
+            var userInfo = _db.Users.Where(user => user.UserGuid == byteArray).FirstOrDefault();
+
+
+            var firstuserBytes = _db.Users.First();
+            byte[] FirstUserGuidBytes = firstuserBytes.UserGuid;
+            
+
             if (userInfo != null)
             {
                 var addCommentForUser = new Smsmsgtouser();
-                addCommentForUser.UserId = userInfo.Userid;
+                addCommentForUser.UserId = userInfo.UserGuid;
                 addCommentForUser.Sms = messageTxt;
-                addCommentForUser.CreatorId = 1;
+                addCommentForUser.CreatorId = FirstUserGuidBytes;
                 _db.Smsmsgtousers.Add(addCommentForUser);
                 _db.SaveChanges();
                 return true;
@@ -103,15 +137,21 @@ namespace Services.Repository
             }
         }
 
-        public bool SaveCommnetsForInductionUsers(int sendToUserId, string messageText)
+        public bool SaveCommnetsForInductionUsers(string sendToUserId, string messageText)
         {
-            var inductionUserInfo = _db.Inductionusers.Where(iuser => iuser.Inductionuserid == sendToUserId).FirstOrDefault();
+            byte[] byteArray = HexStringToByteArray(sendToUserId.Replace("-", ""));
+
+            var inductionUserInfo = _db.Inductionusers.Where(iuser => iuser.InductionuserGuid == byteArray).FirstOrDefault();
+
+            var firstuserBytes = _db.Users.First();
+            byte[] FirstUserGuidBytes = firstuserBytes.UserGuid;
+
             if (inductionUserInfo != null)
             {
                 var addCommentForInductionUser = new Smsmsgtoinductionuser();
-                addCommentForInductionUser.InductionUserId = inductionUserInfo.Inductionuserid;
+                addCommentForInductionUser.InductionUserId = inductionUserInfo.InductionuserGuid;
                 addCommentForInductionUser.Sms = messageText;
-                addCommentForInductionUser.CreatorId = 1;
+                addCommentForInductionUser.CreatorId = FirstUserGuidBytes;
                 _db.Smsmsgtoinductionusers.Add(addCommentForInductionUser);
                 _db.SaveChanges();
                 return true;

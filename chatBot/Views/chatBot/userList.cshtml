@@ -18,10 +18,14 @@
             </tr>
         </thead>
         <tbody class="bg-light text-dark">
-             @foreach (var user in Model.Where(user=>user.Userid !=1))
+             @foreach (var user in Model.Skip(1))
             {
+                byte[] userGuidBytes = user.UserGuid;
 
-                <tr class="ClickRow" data-userId="@user.Userid">
+                string userGuidString = BitConverter.ToString(userGuidBytes);
+
+
+                <tr class="ClickRow" data-UserGUID="@userGuidString">
                         <td>@user.FirstName @user.LastName</td>
                         <td>@user.PhoneNumber</td>
                         <td>@user.Email</td>

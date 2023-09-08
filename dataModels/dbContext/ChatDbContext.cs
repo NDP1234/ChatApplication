@@ -36,11 +36,14 @@ public partial class ChatDbContext : DbContext
 
         modelBuilder.Entity<Inductionuser>(entity =>
         {
-            entity.HasKey(e => e.Inductionuserid).HasName("PRIMARY");
+            entity.HasKey(e => e.InductionuserGuid).HasName("PRIMARY");
 
             entity.ToTable("inductionusers");
 
-            entity.Property(e => e.Inductionuserid).HasColumnName("inductionuserid");
+            entity.Property(e => e.InductionuserGuid)
+                .HasMaxLength(16)
+                .IsFixedLength()
+                .HasColumnName("inductionuserGUID");
             entity.Property(e => e.CreationTime)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("timestamp");
@@ -50,6 +53,7 @@ public partial class ChatDbContext : DbContext
             entity.Property(e => e.FirstName)
                 .HasMaxLength(255)
                 .HasColumnName("first_name");
+            entity.Property(e => e.Inductionuserid).HasColumnName("inductionuserid");
             entity.Property(e => e.IsDelete).HasDefaultValueSql("'0'");
             entity.Property(e => e.LastName)
                 .HasMaxLength(255)
@@ -65,91 +69,133 @@ public partial class ChatDbContext : DbContext
 
         modelBuilder.Entity<Smsmsgtoinductionuser>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PRIMARY");
+            entity.HasKey(e => e.InductionUserMsgGuid).HasName("PRIMARY");
 
             entity.ToTable("smsmsgtoinductionuser");
 
-            entity.HasIndex(e => e.CreatorId, "CreatorId");
+            entity.HasIndex(e => e.CreatorId, "FK1_CREATOR_INDUCTION");
 
-            entity.HasIndex(e => e.DeletorId, "DeletorId");
+            entity.HasIndex(e => e.ModificationId, "FK2_MODIFICATION_INDUCTION");
 
-            entity.HasIndex(e => e.InductionUserId, "FK_smsmsgtoinductionuser_inductionusers");
+            entity.HasIndex(e => e.DeletorId, "FK3_DELETION_INDUCTION");
 
-            entity.HasIndex(e => e.ModificationId, "ModificationId");
+            entity.HasIndex(e => e.InductionUserId, "FK4_INDUCTION_USER");
 
+            entity.Property(e => e.InductionUserMsgGuid)
+                .HasMaxLength(16)
+                .IsFixedLength()
+                .HasColumnName("inductionUserMsgGUID");
             entity.Property(e => e.CreationTime)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("timestamp");
+            entity.Property(e => e.CreatorId)
+                .HasMaxLength(16)
+                .IsFixedLength();
+            entity.Property(e => e.DeletorId)
+                .HasMaxLength(16)
+                .IsFixedLength();
+            entity.Property(e => e.InductionUserId)
+                .HasMaxLength(16)
+                .IsFixedLength();
+            entity.Property(e => e.ModificationId)
+                .HasMaxLength(16)
+                .IsFixedLength();
             entity.Property(e => e.ModificationTime).HasColumnType("timestamp");
             entity.Property(e => e.Sms).HasColumnType("text");
 
             entity.HasOne(d => d.Creator).WithMany(p => p.SmsmsgtoinductionuserCreators)
                 .HasForeignKey(d => d.CreatorId)
-                .HasConstraintName("smsmsgtoinductionuser_ibfk_2");
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK1_CREATOR_INDUCTION");
 
             entity.HasOne(d => d.Deletor).WithMany(p => p.SmsmsgtoinductionuserDeletors)
                 .HasForeignKey(d => d.DeletorId)
-                .HasConstraintName("smsmsgtoinductionuser_ibfk_4");
+                .HasConstraintName("FK3_DELETION_INDUCTION");
 
             entity.HasOne(d => d.InductionUser).WithMany(p => p.Smsmsgtoinductionusers)
                 .HasForeignKey(d => d.InductionUserId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_smsmsgtoinductionuser_inductionusers");
+                .HasConstraintName("FK4_INDUCTION_USER");
 
             entity.HasOne(d => d.Modification).WithMany(p => p.SmsmsgtoinductionuserModifications)
                 .HasForeignKey(d => d.ModificationId)
-                .HasConstraintName("smsmsgtoinductionuser_ibfk_3");
+                .HasConstraintName("FK2_MODIFICATION_INDUCTION");
         });
 
         modelBuilder.Entity<Smsmsgtouser>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PRIMARY");
+            entity.HasKey(e => e.UsermsgGuid).HasName("PRIMARY");
 
             entity.ToTable("smsmsgtousers");
 
-            entity.HasIndex(e => e.CreatorId, "CreatorId");
+            entity.HasIndex(e => e.CreatorId, "FK1_CREATOR");
 
-            entity.HasIndex(e => e.DeletorId, "DeletorId");
+            entity.HasIndex(e => e.ModificationId, "FK2_Modifier");
 
-            entity.HasIndex(e => e.ModificationId, "ModificationId");
+            entity.HasIndex(e => e.DeletorId, "FK3_DELETOR");
 
-            entity.HasIndex(e => e.UserId, "UserId");
+            entity.HasIndex(e => e.UserId, "FK4_USER_REF");
 
+            entity.Property(e => e.UsermsgGuid)
+                .HasMaxLength(16)
+                .IsFixedLength()
+                .HasColumnName("usermsgGUID");
             entity.Property(e => e.CreationTime)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("timestamp");
+            entity.Property(e => e.CreatorId)
+                .HasMaxLength(16)
+                .IsFixedLength();
+            entity.Property(e => e.DeletorId)
+                .HasMaxLength(16)
+                .IsFixedLength();
+            entity.Property(e => e.ModificationId)
+                .HasMaxLength(16)
+                .IsFixedLength();
             entity.Property(e => e.ModificationTime).HasColumnType("timestamp");
             entity.Property(e => e.Sms).HasColumnType("text");
+            entity.Property(e => e.UserId)
+                .HasMaxLength(16)
+                .IsFixedLength();
 
             entity.HasOne(d => d.Creator).WithMany(p => p.SmsmsgtouserCreators)
                 .HasForeignKey(d => d.CreatorId)
-                .HasConstraintName("smsmsgtousers_ibfk_2");
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK1_CREATOR");
 
             entity.HasOne(d => d.Deletor).WithMany(p => p.SmsmsgtouserDeletors)
                 .HasForeignKey(d => d.DeletorId)
-                .HasConstraintName("smsmsgtousers_ibfk_4");
+                .HasConstraintName("FK3_DELETOR");
 
             entity.HasOne(d => d.Modification).WithMany(p => p.SmsmsgtouserModifications)
                 .HasForeignKey(d => d.ModificationId)
-                .HasConstraintName("smsmsgtousers_ibfk_3");
+                .HasConstraintName("FK2_Modifier");
 
             entity.HasOne(d => d.User).WithMany(p => p.SmsmsgtouserUsers)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("smsmsgtousers_ibfk_1");
+                .HasConstraintName("FK4_USER_REF");
         });
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.Userid).HasName("PRIMARY");
+            entity.HasKey(e => e.UserGuid).HasName("PRIMARY");
 
             entity.ToTable("users");
 
-            entity.Property(e => e.Userid).HasColumnName("userid");
+            entity.Property(e => e.UserGuid)
+                .HasMaxLength(16)
+                .IsFixedLength()
+                .HasColumnName("userGUID");
             entity.Property(e => e.CreationTime)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("timestamp");
+            entity.Property(e => e.CreatorId)
+                .HasMaxLength(16)
+                .IsFixedLength();
             entity.Property(e => e.DeletionTime).HasColumnType("timestamp");
+            entity.Property(e => e.DeletorId)
+                .HasMaxLength(16)
+                .IsFixedLength();
             entity.Property(e => e.Email)
                 .HasMaxLength(255)
                 .HasColumnName("email");
@@ -161,6 +207,9 @@ public partial class ChatDbContext : DbContext
             entity.Property(e => e.LastName)
                 .HasMaxLength(255)
                 .HasColumnName("last_name");
+            entity.Property(e => e.ModificationId)
+                .HasMaxLength(16)
+                .IsFixedLength();
             entity.Property(e => e.ModificationTime)
                 .ValueGeneratedOnAddOrUpdate()
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
@@ -171,6 +220,7 @@ public partial class ChatDbContext : DbContext
             entity.Property(e => e.PhoneNumber)
                 .HasMaxLength(20)
                 .HasColumnName("phone_number");
+            entity.Property(e => e.Userid).HasColumnName("userid");
             entity.Property(e => e.Username)
                 .HasMaxLength(50)
                 .HasColumnName("username");

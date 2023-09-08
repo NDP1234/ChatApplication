@@ -23,17 +23,19 @@ public partial class User
 
     public bool? IsDelete { get; set; }
 
-    public int? CreatorId { get; set; }
+    public byte[] CreatorId { get; set; } = null!;
 
-    public int? ModificationId { get; set; }
+    public byte[]? ModificationId { get; set; }
 
-    public int? DeletorId { get; set; }
+    public byte[]? DeletorId { get; set; }
 
     public DateTime? ModificationTime { get; set; }
 
     public DateTime? CreationTime { get; set; }
 
     public DateTime? DeletionTime { get; set; }
+
+    public byte[] UserGuid { get; set; } = null!;
 
     public virtual ICollection<Smsmsgtoinductionuser> SmsmsgtoinductionuserCreators { get; set; } = new List<Smsmsgtoinductionuser>();
 

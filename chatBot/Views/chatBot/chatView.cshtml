@@ -4,7 +4,7 @@
 @using dataModels.ViewModels
 @model ChatViewModel
 @{
-
+    string TouserGuidString = BitConverter.ToString(@Model.Userid);
 }
 <div class="bg-success text-light mt-5 py-3 px-3">
     <div class="userProfile bg-dark text-light text-center py-2 border-2 border-light borderCustom">
@@ -13,8 +13,11 @@
     <div class="chatList text-light px-2 border border-2 border-white position-relative pt-3 overflow-auto bgChat">
         @foreach (var msg in Model.commonUserModels)
         {
+            byte[] userGuidBytes = msg.UserId;
+            string userGuidString = BitConverter.ToString(userGuidBytes);
             <div class="message-container px-2">
-                @if (msg.UserId != 1)
+
+                @if (userGuidString != Model.StrForFirstUser)
                 {
                     <div class="msg-sent bgSender text-light mt-2 ps-1 pe-2 py-2 border border-white d-inline-block float-end">
                         @msg.Sms
@@ -48,7 +51,7 @@
                       placeholder="Enter your message here.."></textarea>
         </div>
         <div>
-            <button class="btn btn-primary border-white BtnHover my-2 text-center" id="post-message" data-toUserId="@Model.Userid" type="button">
+            <button class="btn btn-primary border-white BtnHover my-2 text-center" id="post-message" data-toUserId="@TouserGuidString" type="button">
                 Post Message
                 <i class="bi bi-arrow-right-circle-fill"></i>
             </button>

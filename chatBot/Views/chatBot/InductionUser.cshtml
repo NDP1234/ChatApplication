@@ -20,13 +20,16 @@
         <tbody class="bg-light text-dark">
             @foreach (var user in Model)
             {
-                <tr class="ClickRowForInductionUser" data-inductionUserId="@user.Inductionuserid">
+                byte[] userGuidBytes = user.InductionuserGuid;
+                string userGuidString = BitConverter.ToString(userGuidBytes);
+
+                @* <tr class="ClickRowForInductionUser" data-inductionUserId="@user.Inductionuserid"> *@
+                <tr class="ClickRowForInductionUser" data-InductionUserGUID="@userGuidString">
+
                     <td>@user.FirstName @user.LastName</td>
                     <td>@user.PhoneNumber</td>
                     <td>@user.Email</td>
-                    @* <td>
-                        <button type="button" value="@user.Inductionuserid" class="btn btn-success inductionUserChat">Send the message</button>
-                    </td> *@
+                    
                 </tr>
             }
         </tbody>

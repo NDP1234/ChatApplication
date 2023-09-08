@@ -12,12 +12,13 @@ namespace Services.Interface
     {
         public List<User> getUserLIst();
         public List<Inductionuser> getInductionUserList();
-    
-        public ChatViewModel fetchMessageDetailsForUser(int userId);
 
-        public ChatViewModel fetchMessageDetailsForInductionUser(int userId);
+        public ChatViewModel fetchMessageDetailsForUser(string userId);
 
-        public bool SaveCommentsForUsers(int sendToUser, string messageTxt);
-        public bool SaveCommnetsForInductionUsers(int sendToUserId, string messageText);
+        public ChatViewModel fetchMessageDetailsForInductionUser(string userId);
+
+        public bool SaveCommentsForUsers(string sendToUser, string messageTxt);
+
+        public bool SaveCommnetsForInductionUsers(string sendToUserId, string messageText);
     }
 }

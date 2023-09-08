@@ -9,7 +9,9 @@ namespace dataModels.ViewModels
 {
     public class ChatViewModel
     {
-        public int Userid { get; set; }
+        //public int Userid { get; set; }
+        public string StrForFirstUser { get; set; }
+        public byte[] Userid { get; set; }
 
         public string FirstName { get; set; } = null!;
 
@@ -19,19 +21,19 @@ namespace dataModels.ViewModels
 
         public class CommonUserModel
         {
-            public int Id { get; set; }
+            public byte[] Id { get; set; }
 
-            public int UserId { get; set; }
+            public byte[] UserId { get; set; }
 
             public string Sms { get; set; } = null!;
 
             public bool IsDelete { get; set; }
 
-            public int? CreatorId { get; set; }
+            public byte[]? CreatorId { get; set; }
 
-            public int? ModificationId { get; set; }
+            public byte[]? ModificationId { get; set; }
 
-            public int? DeletorId { get; set; }
+            public byte[]? DeletorId { get; set; }
 
             public DateTime? ModificationTime { get; set; }
 

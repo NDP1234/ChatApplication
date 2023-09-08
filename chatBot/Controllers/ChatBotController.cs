@@ -15,6 +15,7 @@ namespace chatBot.Controllers
             _db = db;
             _chatbotApplication = chatbotApplication;
         }
+
         public IActionResult chatBot()
         {
             return View();
@@ -29,12 +30,13 @@ namespace chatBot.Controllers
             var inductionusers = _chatbotApplication.getInductionUserList();
             return PartialView("InductionUser", inductionusers);
         }
-        public IActionResult chatView(int userId)
+        public IActionResult chatView(string userId)
         {
             var myModel = _chatbotApplication.fetchMessageDetailsForUser(userId);
             return PartialView("chatView", myModel);
         }
-        public IActionResult chatViewForInductionUser(int userId)
+
+        public IActionResult chatViewForInductionUser(string userId)
         {
             var myModel = _chatbotApplication.fetchMessageDetailsForInductionUser(userId);
             return PartialView("chatViewForInductionUser", myModel);
@@ -42,14 +44,14 @@ namespace chatBot.Controllers
 
 
         [HttpPost]
-        public bool SaveComments(int sendToUser, string messageTxt)
+        public bool SaveComments(string sendToUser, string messageTxt)
         {
             var status = _chatbotApplication.SaveCommentsForUsers(sendToUser, messageTxt);
             return status;
         }
 
         [HttpPost]
-        public bool SaveCommnetsForInductionUser(int sendToUserId, string messageText)
+        public bool SaveCommnetsForInductionUser(string sendToUserId, string messageText)
         {
             var status = _chatbotApplication.SaveCommnetsForInductionUsers(sendToUserId, messageText);
             return status;

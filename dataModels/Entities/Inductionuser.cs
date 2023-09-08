@@ -27,5 +27,7 @@ public partial class Inductionuser
 
     public DateTime? CreationTime { get; set; }
 
+    public byte[] InductionuserGuid { get; set; } = null!;
+
     public virtual ICollection<Smsmsgtoinductionuser> Smsmsgtoinductionusers { get; set; } = new List<Smsmsgtoinductionuser>();
 }

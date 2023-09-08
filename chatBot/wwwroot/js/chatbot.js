@@ -18,22 +18,11 @@ $(document).on('click', '#openInductionUserList', function () {
     })
 })
 
-//$(document).on('click', '.userChat', function () {
-//    var userId = $(this).val();
-//    console.log(userId);
-//    console.log("clicked");
-//    $('tr').removeClass('highlighted');
-//    $(this).closest('tr').addClass('highlighted');
-//    $.ajax({
-//        url: "/ChatBot/chatView?userId=" + userId,
-//        success: function (data) {
-//            $('.UserChatDetails').html(data);
-//        }
-//    })
-//})
+
 
 $(document).on('click', 'tr.ClickRow', function () {
-    var userId = $(this).attr("data-userId");
+    //var userId = $(this).attr("data-userId");
+    var userId = $(this).attr("data-UserGUID");
     console.log(userId);
     console.log("clicked");
     $('tr.ClickRow').removeClass('highlighted');
@@ -46,21 +35,9 @@ $(document).on('click', 'tr.ClickRow', function () {
     });
 });
 
-//$(document).on('click', '.inductionUserChat', function () {
-//    var userId = $(this).val();
-//    console.log(userId);
-//    $('tr').removeClass('highlighted');
-//    $(this).closest('tr').addClass('highlighted');
-//    $.ajax({
-//        url: "/ChatBot/chatViewForInductionUser?userId=" + userId,
-//        success: function (data) {
-//            $('.InductionUserChatDetails').html(data);
-//        }
-//    })
-//})
 
 $(document).on("click", '.ClickRowForInductionUser', function () {
-    var inductionUSerId = $(this).attr("data-inductionUserId");
+    var inductionUSerId = $(this).attr("data-InductionUserGUID");
     console.log(inductionUSerId);
     $('tr').removeClass('highlighted');
     $(this).addClass('highlighted');
@@ -72,6 +49,7 @@ $(document).on("click", '.ClickRowForInductionUser', function () {
         }
     })
 })
+
 document.getElementById('openUserList').addEventListener('click', function () {
     Swal.fire({
         title: "click on perticular data to communicate with him/her",
@@ -79,9 +57,10 @@ document.getElementById('openUserList').addEventListener('click', function () {
         confirmButtonText: 'OK'
     });
 });
+
 document.getElementById('openInductionUserList').addEventListener('click', function () {
     Swal.fire({
-        title: "click on perticular data to communicate with him/her",
+        title: "click on particular data to communicate with him/her",
         icon: 'info',
         confirmButtonText: 'OK'
     });
